@@ -1,8 +1,8 @@
+
+%% Initialization
 clear all;
 close all;
 clc;
-
-
 
 %% Load Screen
 Screen('Preference', 'SkipSyncTests', 1);
@@ -15,17 +15,13 @@ HideCursor();
 window_w = rect(3); 
 window_h = rect(4);
 
-
 %% X and Y dimensions
 x = window_w/2;
 y = window_h/2;
 
-
-
 %% Loading excel of frequencies
 data = xlsread('Frequency_List');
 data_Poss=data(:,2);
-
 
 %% Defining Results
 results=zeros(200,11);
@@ -34,7 +30,6 @@ results=zeros(200,11);
 Screen('DrawText',window,'Welcome to the Ensemble Audio Experiment',x-200,y);
 Screen('Flip',window);
 WaitSecs(1);
-
 
 %% Instructions
 Screen('DrawText',window,'You will be presented with 6 auditory stimuli and one test stimuli',x-300,y);
@@ -50,10 +45,8 @@ Screen('DrawText',window,'Press any key to begin the experiment',x-200,y);
 Screen('Flip',window);
 pause;
 
-
 %% Master for loop
 for totalTrials = 1:10
-    
     
 %% Matrix of values around mean
 randMean=randi([6 47],1);
@@ -66,10 +59,8 @@ poss3N=data_Poss(randMean-3);
 poss2P=data_Poss(randMean+2);
 poss2N=data_Poss(randMean-2);
 
-
 valuesAroundMean=[poss1P;poss1N;poss5P;poss5N;poss3P;poss3N;poss2P;poss2N];
 positionAroundMean=[1;-1;5;-5;3;-3;2;-2];
-
 
 %% Creating the tone
 toneDuration= [0:1/44100:0.300];
@@ -85,11 +76,8 @@ for values1235=1:8
     globalTone1235{values1235}=sin(2*pi*valuesAroundMean(values1235,1)*toneDuration);
 end
 
-
-
 i=0;
 Shuffle(globalTone135);
-
 
 %% Cosine Ramp
 Freq_ramp=50; %cosine ramp duration
@@ -97,7 +85,6 @@ rampvector=[1:441]; %vector of cosine ramp
 fs=44100; %sampling rate
 offset=(1+sin(2*pi*Freq_ramp*rampvector./fs+(pi/2)))/2;
 onset=(1+sin(2*pi*Freq_ramp*rampvector./fs+(-pi/2)))/2;
-
 
 %% Playing the Sound
 shuffleTones=Shuffle(1:6);
@@ -115,9 +102,6 @@ for i=shuffleTones
     WaitSecs(0.1);
 end
 
-
-
-
 %% Play Testing Sound
 Screen('DrawText',window,'Here is the test sound', x-200,y);
 Screen('Flip',window);
@@ -133,10 +117,8 @@ Screen('Flip',window);
     PsychPortAudio('Close',trial2); 
     Initial_Time=GetSecs;
     
-    
 %% Save mean
 results(totalTrials,1)=data_Poss(randMean);
-
 
 %% Freq saving
 results(totalTrials,2)=poss5N;
@@ -146,23 +128,16 @@ results(totalTrials,5)=poss1P;
 results(totalTrials,6)=poss3P;
 results(totalTrials,7)=poss5P;
 
-
-
 %% Distance from Mean
 results(totalTrials,8)= positionAroundMean(c,:);
-
 
 %% Save Test note freq
 results(totalTrials,9)=valuesAroundMean(c,1);
 
-
 %% Button press (save results) --> h for higher l for lower
 Screen('DrawText',window,'Press "h" if the test sound is higher than the average of the 6 sounds',x-300,y);
 Screen('DrawText',window,'Press "l" if the test sound is lower than the average of the 6 sounds',x-300,y+50);
-Screen('Flip',window);
-
-
-
+Screen('Flip',window)
 
     KbName('UnifyKeynames');
     high_key=KbName('h');
@@ -186,19 +161,15 @@ Screen('Flip',window);
 end
 
 
-
-
 %% Calculate percent correct
 totalCorrect=sum(results(1:totalTrials,11));
 percentCorrect=totalCorrect/totalTrials*100;
-
 
 %% Display percent correct
 Screen('DrawText',window,'Below is your total percentage correct',x-250,y-50);
 Screen('DrawText',window,[num2str(percentCorrect) '%'],x-50,y);
 Screen('Flip',window);
 WaitSecs(1.5);
-
 
 %% Ending
 Screen('DrawText',window,'Thank you for your time!', x-200,y);
@@ -208,117 +179,8 @@ Screen('DrawText',window,'Press any key to close the simulation',x-250,y);
 Screen('Flip',window);
 pause;
 
-
-
 %% Saving
 save('results');
 
-
-
 %% Finishing and closing screen
 Screen('CloseAll');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-% Half of this code is useless spaces
