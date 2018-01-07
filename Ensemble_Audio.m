@@ -45,8 +45,10 @@ Screen('DrawText',window,'Press any key to begin the experiment',x-200,y);
 Screen('Flip',window);
 pause;
 
+numTrials=10
+
 %% Master for loop
-for totalTrials = 1:10
+for totalTrials = 1:numTrials
     
 %% Matrix of values around mean
 randMean=randi([6 47],1);
