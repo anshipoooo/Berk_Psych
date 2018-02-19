@@ -45,7 +45,7 @@ Screen('DrawText',window,'Press any key to begin the experiment',x-200,y);
 Screen('Flip',window);
 pause;
 
-numTrials=10
+numTrials=10;
 
 %% Master for loop
 for totalTrials = 1:numTrials
@@ -62,7 +62,8 @@ poss2P=data_Poss(randMean+2);
 poss2N=data_Poss(randMean-2);
 
 valuesAroundMean=[poss1P;poss1N;poss5P;poss5N;poss3P;poss3N;poss2P;poss2N];
-positionAroundMean=[1;-1;5;-5;3;-3;2;-2];
+positionAroundMean1235=[1;-1;5;-5;3;-3;2;-2];
+positionAroundMean135=[1;-1;5;-5;3;-3]
 
 %% Creating the tone
 toneDuration= [0:1/44100:0.300];
@@ -70,11 +71,11 @@ numTones=6;
 
 
 
-for values135=1:6
+for values135=1:length(positionAroundMean135)
     globalTone135{values135}=sin(2*pi * valuesAroundMean(values135,1) * toneDuration);
 end
 
-for values1235=1:8
+for values1235=1:length(positionAroundMean1235)
     globalTone1235{values1235}=sin(2*pi*valuesAroundMean(values1235,1)*toneDuration);
 end
 
@@ -131,7 +132,7 @@ results(totalTrials,6)=poss3P;
 results(totalTrials,7)=poss5P;
 
 %% Distance from Mean
-results(totalTrials,8)= positionAroundMean(c,:);
+results(totalTrials,8)= positionAroundMean1235(c,:);
 
 %% Save Test note freq
 results(totalTrials,9)=valuesAroundMean(c,1);
@@ -152,8 +153,10 @@ Screen('Flip',window)
         results(totalTrials,11)= 1;
     elseif keyCode(low_key)==1 && valuesAroundMean(c,1)<data_Poss(randMean)
         results(totalTrials,11)= 1;
-    else
-        results(totalTrials,11)=0;
+    elseif keyCode(low_key)==1 && valuesAroundMean(c,1)>data_Poss(randMean)
+        results(totalTrials,11)= 0;
+    elseif keyCode(high_key)==1 && valuesAroundMean(c,1)<data_Poss(randMean)
+        results(totalTrials,11)= 0;
     end
     
     
@@ -173,6 +176,9 @@ Screen('DrawText',window,[num2str(percentCorrect) '%'],x-50,y);
 Screen('Flip',window);
 WaitSecs(1.5);
 
+%% Saving
+save('results');
+
 %% Ending
 Screen('DrawText',window,'Thank you for your time!', x-200,y);
 Screen('Flip',window);
@@ -180,9 +186,6 @@ WaitSecs(1);
 Screen('DrawText',window,'Press any key to close the simulation',x-250,y);
 Screen('Flip',window);
 pause;
-
-%% Saving
-save('results');
 
 %% Finishing and closing screen
 Screen('CloseAll');
