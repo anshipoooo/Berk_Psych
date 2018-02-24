@@ -5,7 +5,9 @@ clc
 %% Dimensions
 currFolder=pwd;
 fileTypes={'.jpg' '.png' '.JPG' '.PNG'};
-desiredImage=imread([currFolder,'\altered.jpg']);
+
+% when running the program, be sure to change the picture's name below
+desiredImage=imread([currFolder,'\IMG_7265.jpg']);
 desiredDimensions=[130 130];
 numSquares=10;
 maxFinalImage=4000;
